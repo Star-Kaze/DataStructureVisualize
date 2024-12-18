@@ -125,7 +125,8 @@ public class QueueDisplay implements Collection, Queue {
         if (this.size == 0) {
             return;
         }
-        this.changeColor(0, Color.BLACK);
+        this.changeColor(this.size - 1, Color.BLACK);
+        this.changeColor(0, Color.RED);
     }
 
     @Override
@@ -133,7 +134,8 @@ public class QueueDisplay implements Collection, Queue {
         if (this.size == 0) {
             return;
         }
-        this.changeColor(this.size - 1, Color.BLACK);
+        this.changeColor(0, Color.BLACK);
+        this.changeColor(this.size - 1, Color.RED);
     }
 
     @Override
