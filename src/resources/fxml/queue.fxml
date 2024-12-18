@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="parent" prefHeight="800.0" prefWidth="1540.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="resources.controllers.QueueController">
+    <children>
+        <AnchorPane fx:id="theme" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <AnchorPane layoutX="91.0" layoutY="520.0" prefHeight="200.0" prefWidth="144.0">
+            <children>
+                <VBox prefHeight="200.0" prefWidth="144.0">
+                    <children>
+                        <Button fx:id="createButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Create" />
+                        <Button fx:id="insertButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Enqueue" />
+                        <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Dequeue" />
+                        <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#peek" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Peek" />
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutX="235.0" layoutY="520.0" prefHeight="200.0" prefWidth="400.0">
+            <children>
+                <VBox layoutX="53.0" layoutY="-14.0" prefHeight="200.0" prefWidth="388.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <HBox fx:id="createField" prefHeight="50.0" prefWidth="200.0">
+                            <children>
+                                <Button mnemonicParsing="false" onMouseClicked="#createEmpty" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Empty" />
+                                <TextField fx:id="createValues" prefHeight="50.0" prefWidth="200.0" promptText="Values" />
+                                <Button mnemonicParsing="false" onMouseClicked="#create" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Create" />
+                            </children></HBox>
+                        <HBox fx:id="insertField" prefHeight="50.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="insertValues" prefHeight="50.0" prefWidth="200.0" promptText="Values" />
+                                <Button mnemonicParsing="false" onMouseClicked="#insert" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Push" />
+                            </children></HBox>
+                        <HBox fx:id="removeField" prefHeight="50.0" prefWidth="200.0">
+                            <children>
+                                <Button layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#remove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="1x Dequeue" />
+                                <TextField fx:id="removeIndex" prefHeight="50.0" prefWidth="100.0" promptText="k" />
+                                <Button mnemonicParsing="false" onMouseClicked="#kxRemove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="kx Dequeue" />
+                            </children></HBox>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>
