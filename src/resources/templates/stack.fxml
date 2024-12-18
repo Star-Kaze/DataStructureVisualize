@@ -10,10 +10,10 @@
             <children>
                 <VBox prefHeight="200.0" prefWidth="144.0">
                     <children>
-                        <Button fx:id="createButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Create" />
-                        <Button fx:id="insertButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Push" />
-                        <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Pop" />
-                        <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#peek" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Peek" />
+                        <Button fx:id="createButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Create" />
+                        <Button fx:id="insertButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Push" />
+                        <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Pop" />
+                        <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#peek" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Peek" />
                     </children>
                 </VBox>
             </children>
@@ -24,20 +24,20 @@
                     <children>
                         <HBox fx:id="createField" prefHeight="50.0" prefWidth="200.0">
                             <children>
-                                <Button mnemonicParsing="false" onMouseClicked="#createEmpty" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Empty" />
+                                <Button mnemonicParsing="false" onMouseClicked="#createEmpty" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Empty" />
                                 <TextField fx:id="createValues" prefHeight="50.0" prefWidth="200.0" promptText="Values" />
-                                <Button mnemonicParsing="false" onMouseClicked="#create" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Create" />
+                                <Button mnemonicParsing="false" onMouseClicked="#create" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Create" />
                             </children></HBox>
                         <HBox fx:id="insertField" prefHeight="50.0" prefWidth="200.0">
                             <children>
                                 <TextField fx:id="insertValues" prefHeight="50.0" prefWidth="200.0" promptText="Values" />
-                                <Button mnemonicParsing="false" onMouseClicked="#insert" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="Push" />
+                                <Button mnemonicParsing="false" onMouseClicked="#insert" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Push" />
                             </children></HBox>
                         <HBox fx:id="removeField" prefHeight="50.0" prefWidth="200.0">
                             <children>
-                        <Button layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#remove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="1x Pop" />
+                        <Button layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#remove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="1x Pop" />
                                 <TextField fx:id="k" prefHeight="50.0" prefWidth="100.0" promptText="k" />
-                                <Button mnemonicParsing="false" onMouseClicked="#kxRemove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="kx Pop" />
+                                <Button mnemonicParsing="false" onMouseClicked="#kxRemove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="kx Pop" />
                             </children></HBox>
                     </children>
                 </VBox>
