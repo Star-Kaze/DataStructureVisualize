@@ -107,15 +107,12 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
                 this.draw();
             }
         }
-        SequentialTransition sequentialTransition = new SequentialTransition();
         for (int i = this.size - 1; i >= index; i--) {
-            sequentialTransition.getChildren().add(this.createShiftRightAnimation(i));
+            this.setValue(i + 1, this.getValue(i));
+            this.removeValue(i);
         }
-        sequentialTransition.setOnFinished(event -> {
-            this.setValue(index, value);
-            this.size++;
-        });
-        sequentialTransition.play();
+        this.setValue(index, value);
+        this.size++;
     }
 
     @Override
@@ -151,70 +148,6 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
             return;
         }
         this.setValue(index, value);
-    }
-
-    private SequentialTransition createShiftRightAnimation(int i) {
-        Rectangle rectangle1 = new Rectangle(WIDTH, WIDTH);
-        rectangle1.setStroke(Color.GREEN);
-        rectangle1.setStrokeWidth(2);
-        rectangle1.setFill(Color.GREEN);
-
-        Label label1 = new Label(Integer.toString(this.getValue(i)));
-        label1.setStyle("-fx-font-size: " + (WIDTH / 3) + "px; "
-                + "-fx-text-fill: white; "
-                + "-fx-alignment: center;");
-
-        StackPane container1 = new StackPane();
-        container1.getChildren().addAll(rectangle1, label1);
-
-        Rectangle rectangle2 = new Rectangle(WIDTH, WIDTH);
-        rectangle2.setStrokeWidth(2);
-        rectangle2.setStroke(Color.GREEN);
-        rectangle2.setFill(Color.GREEN);
-
-        Label label2 = new Label(Integer.toString(this.getValue(i)));
-        label2.setStyle("-fx-font-size: " + (WIDTH / 3) + "px; "
-                + "-fx-text-fill: white; "
-                + "-fx-alignment: center;");
-        label2.setOpacity(0);
-
-        StackPane container2 = new StackPane();
-        container2.getChildren().addAll(rectangle2, label2);
-
-        HBox container = new HBox();
-        container.setLayoutX(X + WIDTH * i);
-        container.setLayoutY(Y);
-        container.setOpacity(0);
-        container.getChildren().addAll(container1, container2);
-        this.parent.getChildren().add(container);
-
-        FadeTransition fd1 = new FadeTransition(Duration.seconds(1), container);
-        fd1.setFromValue(0);
-        fd1.setToValue(1);
-
-        FadeTransition fd2 = new FadeTransition(Duration.seconds(1), label1);
-        fd2.setFromValue(1);
-        fd2.setToValue(0);
-
-        FadeTransition fd3 = new FadeTransition(Duration.seconds(1), label2);
-        fd3.setFromValue(0);
-        fd3.setToValue(1);
-
-        FadeTransition fd4 = new FadeTransition(Duration.seconds(1), container);
-        fd4.setFromValue(1);
-        fd4.setToValue(0);
-
-        ParallelTransition parallel = new ParallelTransition(fd2, fd3);
-
-        SequentialTransition sequential = new SequentialTransition(fd1, parallel, fd4);
-
-        sequential.setOnFinished(event -> {
-            this.setValue(i + 1, this.getValue(i));
-            this.removeValue(i);
-            this.parent.getChildren().remove(container);
-        });
-
-        return sequential;
     }
 
     @Override
