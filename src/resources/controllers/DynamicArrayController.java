@@ -20,13 +20,13 @@ public class DynamicArrayController implements Initializable {
     private AnchorPane parent, theme;
 
     @FXML
-    private Button createButton, insertButton, removeButton, updateButton;
+    private Button createButton, insertButton, removeButton, updateButton, selectButton, sortButton;
 
     @FXML
-    private HBox createField, insertField, removeField, updateField;
+    private HBox createField, insertField, removeField, updateField, selectField, sortField;
 
     @FXML
-    private TextField createValues, insertValue, insertIndex, removeIndex, updateValue, updateIndex;
+    private TextField createValues, insertValue, insertIndex, removeIndex, updateValue, updateIndex, selectIndex;
 
     @FXML
     private void createEmpty() {
@@ -86,11 +86,39 @@ public class DynamicArrayController implements Initializable {
         this.elements.update(index, value);
     }
 
+    @FXML
+    private void select() {
+        int index = Integer.parseInt(selectIndex.getText().trim());
+        this.elements.select(index);
+    }
+
+    @FXML
+    private void min() {
+        this.elements.min();
+    }
+
+    @FXML
+    private void max() {
+        this.elements.max();
+    }
+
+    @FXML
+    private void sortAscending() {
+        this.elements.sort(true);
+    }
+
+    @FXML
+    private void sortDescending() {
+        this.elements.sort(false);
+    }
+
     public void disableFields() {
         createField.setVisible(false);
         insertField.setVisible(false);
         removeField.setVisible(false);
         updateField.setVisible(false);
+        selectField.setVisible(false);
+        sortField.setVisible(false);
         theme.setVisible(false);
     }
 
@@ -117,6 +145,16 @@ public class DynamicArrayController implements Initializable {
             disableFields();
             theme.setVisible(true);
             updateField.setVisible(true);
+        });
+        selectButton.setOnMouseClicked(event -> {
+            disableFields();
+            theme.setVisible(true);
+            selectField.setVisible(true);
+        });
+        sortButton.setOnMouseClicked(event -> {
+            disableFields();
+            theme.setVisible(true);
+            sortField.setVisible(true);
         });
         theme.setOnMouseClicked(event -> {
             disableFields();

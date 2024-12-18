@@ -1,18 +1,14 @@
 package graphics.collections.dynamic.array;
 
 import graphics.collections.Collection;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.SequentialTransition;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DynamicArrayDisplay implements Collection, DynamicArray {
     private static final double X = 60;
@@ -25,10 +21,12 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
     private Pane parent;
     private int capacity;
     private int size;
+    private int lastSelection;
 
     public DynamicArrayDisplay(Pane parent) {
         this.elements = new ArrayList<>();
         this.parent = parent;
+        this.lastSelection = 0;
     }
 
     @Override
@@ -47,6 +45,15 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
         Label label = (Label) this.elements.get(index).getChildren().get(1);
         label.setText("");
     }
+
+    public ArrayList<Integer> toList() {
+        ArrayList<Integer> arrLst = new ArrayList<>();
+        for (int i = 0; i < this.size; i++) {
+            arrLst.add(this.getValue(i));
+        }
+        return arrLst;
+    }
+
     @Override
     public void draw() {
         int order = this.elements.size();
@@ -85,18 +92,20 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
         for (int i = 0; i < this.size; i++) {
             this.setValue(i, elements.get(i));
         }
+
         Existed = true;
     }
 
     @Override
     public void insert(int index, int value) {
-        if (index > this.size) {
-            //handle
-            return;
-        }
         if (this.size == 0) {
             this.setValue(0, value);
             this.size++;
+            return;
+        }
+        this.changeColor(this.lastSelection, Color.BLACK);
+        if (index > this.size) {
+            //handle
             return;
         }
         if (this.size == MAX_CAPACITY) {
@@ -122,15 +131,16 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
 
     @Override
     public void remove(int index) {
-        if (index >= this.size) {
+        if (this.size == 0) {
             return;
         }
-        if (size == 0) {
-            return;
-        }
-        if (size == 1) {
+        this.changeColor(this.lastSelection, Color.BLACK);
+        if (this.size == 1) {
             this.removeValue(0);
             this.size--;
+            return;
+        }
+        if (index >= this.size) {
             return;
         }
         this.removeValue(index);
@@ -143,11 +153,51 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
 
     @Override
     public void update(int index, int value) {
+        if (this.size != 0) {
+            this.changeColor(this.lastSelection, Color.BLACK);
+        }
         if (index >= this.size) {
             //handle
             return;
         }
         this.setValue(index, value);
+    }
+
+    @Override
+    public void select(int index) {
+        if (this.size != 0) {
+            this.changeColor(this.lastSelection, Color.BLACK);
+        }
+        if (index >= this.size) {
+            return;
+        }
+        this.changeColor(index, Color.RED);
+        this.lastSelection = index;
+    }
+
+    @Override
+    public void sort(boolean ascending) {
+        ArrayList<Integer> lst = this.toList();
+        if (ascending) {
+            Collections.sort(lst);
+        } else {
+            lst.sort(Collections.reverseOrder());
+        }
+        for (int i = 0; i < this.size; i++) {
+            this.setValue(i, lst.get(i));
+        }
+    }
+
+    @Override
+    public void min() {
+        ArrayList<Integer> lst = this.toList();
+        this.select(lst.indexOf(Collections.min(lst)));
+    }
+
+    @Override
+    public void max() {
+        ArrayList<Integer> lst = this.toList();
+        this.select(lst.indexOf(Collections.max(lst)));
     }
 
     @Override
