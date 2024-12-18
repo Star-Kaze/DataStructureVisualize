@@ -177,11 +177,14 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
 
     @Override
     public void sort(boolean ascending) {
+        if (this.size != 0) {
+            this.changeColor(this.lastSelection, Color.BLACK);
+        }
         ArrayList<Integer> lst = this.toList();
         if (ascending) {
             Collections.sort(lst);
         } else {
-            lst.sort(Collections.reverseOrder());
+            Collections.sort(lst, Collections.reverseOrder());
         }
         for (int i = 0; i < this.size; i++) {
             this.setValue(i, lst.get(i));

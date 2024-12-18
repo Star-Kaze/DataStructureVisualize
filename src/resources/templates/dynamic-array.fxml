@@ -5,7 +5,7 @@
 
 <AnchorPane fx:id="parent" prefHeight="800.0" prefWidth="1540.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="resources.controllers.DynamicArrayController">
    <children>
-      <AnchorPane fx:id="theme" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane fx:id="theme" layoutX="-7.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0" />
       <AnchorPane prefHeight="300.0" prefWidth="144.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="80.0">
          <children>
             <VBox prefHeight="300.0" prefWidth="144.0">
@@ -63,7 +63,7 @@
                   <HBox fx:id="sortField" layoutX="10.0" layoutY="210.0" prefHeight="50.0" prefWidth="200.0">
                      <children>
                         <Button layoutX="210.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#sortAscending" onMouseDragged="#sortDescending" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #b59e67; -fx-opacity: 0.8;" text="Ascending" />
-                        <Button layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#update" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #b59e67; -fx-opacity: 0.8;" text="Descending" />
+                        <Button layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#sortDescending" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #b59e67; -fx-opacity: 0.8;" text="Descending" />
                      </children>
                   </HBox>
                </children>
