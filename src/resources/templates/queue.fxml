@@ -13,7 +13,7 @@
                         <Button fx:id="createButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Create" />
                         <Button fx:id="insertButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Enqueue" />
                         <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Dequeue" />
-                        <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#peek" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Peek" />
+                        <Button fx:id="peekButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Peek" />
                     </children>
                 </VBox>
             </children>
@@ -39,6 +39,12 @@
                                 <TextField fx:id="k" prefHeight="50.0" prefWidth="100.0" promptText="k" />
                                 <Button mnemonicParsing="false" onMouseClicked="#kxRemove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="kx Dequeue" />
                             </children></HBox>
+                  <HBox fx:id="peekField" layoutX="10.0" layoutY="110.0" prefHeight="50.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#frontPeek" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Front" />
+                        <Button mnemonicParsing="false" onMouseClicked="#backPeek" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Back" />
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
             </children>

@@ -26,11 +26,13 @@ public class QueueDisplay implements Collection, Queue {
         this.parent = parent;
     }
 
+    @Override
     public void setValue(int index, int value) {
         Label label = (Label) this.elements.get(index).getChildren().get(1);
         label.setText(Integer.toString(value));
     }
 
+    @Override
     public int getValue(int index) {
         Label label = (Label) this.elements.get(index).getChildren().get(1);
         return Integer.parseInt(label.getText());
@@ -90,6 +92,10 @@ public class QueueDisplay implements Collection, Queue {
 
     @Override
     public void enqueue(int value) {
+        if (this.size != 0) {
+            this.changeColor(this.size - 1, Color.BLACK);
+            this.changeColor(0, Color.BLACK);
+        }
         if (this.size == MAX_CAPACITY) {
             return;
         }
@@ -104,6 +110,8 @@ public class QueueDisplay implements Collection, Queue {
             return;
         }
         int index = this.size - 1;
+        this.changeColor(index, Color.BLACK);
+        this.changeColor(0, Color.BLACK);
         for (int i = 0; i < index; i++){
             this.setValue(i, this.getValue(i + 1));
         }
@@ -113,7 +121,24 @@ public class QueueDisplay implements Collection, Queue {
     }
 
     @Override
-    public void peek() {
+    public void peekFront() {
+        if (this.size == 0) {
+            return;
+        }
+        this.changeColor(0, Color.BLACK);
+    }
 
+    @Override
+    public void peekBack() {
+        if (this.size == 0) {
+            return;
+        }
+        this.changeColor(this.size - 1, Color.BLACK);
+    }
+
+    @Override
+    public void changeColor(int index, Color color) {
+        Label label = (Label) this.elements.get(index).getChildren().get(1);
+        label.setTextFill(color);
     }
 }

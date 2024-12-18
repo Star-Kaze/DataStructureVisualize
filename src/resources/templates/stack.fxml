@@ -13,7 +13,7 @@
                         <Button fx:id="createButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Create" />
                         <Button fx:id="insertButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Push" />
                         <Button fx:id="removeButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Pop" />
-                        <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#peek" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Peek" />
+                        <Button fx:id="peekButton" mnemonicParsing="false" onMouseClicked="#peek" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #eda1ce; -fx-opacity: 0.8;" text="Peek" />
                     </children>
                 </VBox>
             </children>

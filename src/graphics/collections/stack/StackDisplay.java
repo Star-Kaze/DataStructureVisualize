@@ -27,11 +27,13 @@ public class StackDisplay implements Collection, Stack {
         this.parent = parent;
     }
 
+    @Override
     public void setValue(int index, int value) {
         Label label = (Label) this.elements.get(index).getChildren().get(1);
         label.setText(Integer.toString(value));
     }
 
+    @Override
     public int getValue(int index) {
         Label label = (Label) this.elements.get(index).getChildren().get(1);
         return Integer.parseInt(label.getText());
@@ -94,6 +96,9 @@ public class StackDisplay implements Collection, Stack {
 
     @Override
     public void push(int value) {
+        if (this.size != 0) {
+            this.changeColor(this.size - 1, Color.BLACK);
+        }
         if (this.size == MAX_CAPACITY) {
             return;
         }
@@ -108,6 +113,7 @@ public class StackDisplay implements Collection, Stack {
             return;
         }
         int index = this.size - 1;
+        this.changeColor(index, Color.BLACK);
         this.parent.getChildren().remove(this.elements.get(index));
         this.elements.remove(index);
         this.size--;
@@ -115,8 +121,15 @@ public class StackDisplay implements Collection, Stack {
 
     @Override
     public void peek() {
-        int index = this.size - 1;
+        if (this.size == 0) {
+            return;
+        }
+        this.changeColor(this.size - 1, Color.RED);
+    }
+
+    @Override
+    public void changeColor(int index, Color color) {
         Label label = (Label) this.elements.get(index).getChildren().get(1);
-        label.setTextFill(Color.RED);
+        label.setTextFill(color);
     }
 }

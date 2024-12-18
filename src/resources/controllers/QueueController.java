@@ -21,10 +21,10 @@ public class QueueController implements Initializable {
     private AnchorPane parent, theme;
 
     @FXML
-    private Button createButton, insertButton, removeButton, updateButton;
+    private Button createButton, insertButton, removeButton, peekButton;
 
     @FXML
-    private HBox createField, insertField, removeField;
+    private HBox createField, insertField, removeField, peekField;
 
     @FXML
     private TextField createValues, insertValues, k;
@@ -66,14 +66,20 @@ public class QueueController implements Initializable {
     }
 
     @FXML
-    private void peek() {
+    private void frontPeek() {
+        this.elements.peekFront();
+    }
 
+    @FXML
+    private void backPeek() {
+        this.elements.peekBack();
     }
 
     public void disableFields() {
         createField.setVisible(false);
         insertField.setVisible(false);
         removeField.setVisible(false);
+        peekField.setVisible(false);
         theme.setVisible(false);
     }
 
@@ -95,6 +101,11 @@ public class QueueController implements Initializable {
             disableFields();
             theme.setVisible(true);
             removeField.setVisible(true);
+        });
+        peekButton.setOnMouseClicked(event -> {
+            disableFields();
+            theme.setVisible(true);
+            peekField.setVisible(true);
         });
         theme.setOnMouseClicked(event -> {
             disableFields();

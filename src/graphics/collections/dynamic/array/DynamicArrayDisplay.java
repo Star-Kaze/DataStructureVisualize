@@ -31,11 +31,13 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
         this.parent = parent;
     }
 
+    @Override
     public void setValue(int index, int value) {
         Label label = (Label) this.elements.get(index).getChildren().get(1);
         label.setText(Integer.toString(value));
     }
 
+    @Override
     public int getValue(int index) {
         Label label = (Label) this.elements.get(index).getChildren().get(1);
         return Integer.parseInt(label.getText());
@@ -213,5 +215,11 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
         });
 
         return sequential;
+    }
+
+    @Override
+    public void changeColor(int index, Color color) {
+        Label label = (Label) this.elements.get(index).getChildren().get(1);
+        label.setTextFill(color);
     }
 }
