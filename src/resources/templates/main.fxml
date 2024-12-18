@@ -20,24 +20,29 @@
                   <Image url="@../icons/exit.png" />
                </image></ImageView>
          </children></AnchorPane>
+      <AnchorPane prefHeight="800.0" prefWidth="1540.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <StackPane fx:id="content" prefHeight="800.0" prefWidth="1540.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="darkTheme" prefHeight="850.0" prefWidth="1600.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <AnchorPane fx:id="options" layoutX="61.0" layoutY="50.0" prefHeight="667.0" prefWidth="213.0" style="-fx-background-color: #cecacf;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="50.0">
          <children>
             <VBox layoutX="39.0" layoutY="75.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="60.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="Home">
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#home" onMouseClicked="#home" prefHeight="60.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="Home">
                      <font>
                         <Font size="24.0" />
                      </font></Button>
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="60.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="List">
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#list" onMouseClicked="#list" prefHeight="60.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="List">
                      <font>
                         <Font size="24.0" />
                      </font></Button>
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="60.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="Stack">
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#stack" onMouseClicked="#stack" prefHeight="60.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="Stack">
                      <font>
                         <Font size="24.0" />
                      </font></Button>
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="60.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="Queue">
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#queue" onMouseClicked="#queue" prefHeight="60.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="Queue">
                      <font>
                         <Font size="24.0" />
                      </font></Button>

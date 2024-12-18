@@ -67,7 +67,7 @@ public class StackController implements Initializable {
 
     @FXML
     private void peek() {
-
+        this.elements.peek();
     }
 
     public void disableFields() {

@@ -1,6 +1,7 @@
 package resources.controllers;
 
 import graphics.collections.dynamic.array.DynamicArrayDisplay;
+import graphics.collections.queue.QueueDisplay;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class QueueController implements Initializable {
+    private QueueDisplay elements;
 
     @FXML
     private AnchorPane parent, theme;
@@ -29,27 +31,38 @@ public class QueueController implements Initializable {
 
     @FXML
     private void createEmpty() {
-
+        this.elements.create(new ArrayList<>());
     }
 
     @FXML
     private void create() {
-
+        String[] rawValues = createValues.getText().split(",");
+        ArrayList<Integer> intValues = new ArrayList<>();
+        for (String rawValue:rawValues) {
+            intValues.add(Integer.parseInt(rawValue.trim()));
+        }
+        this.elements.create(intValues);
     }
 
     @FXML
     private void insert() {
-
+        String[] rawValues = insertValues.getText().split(",");
+        for (String rawValue:rawValues) {
+            this.elements.enqueue(Integer.parseInt(rawValue.trim()));
+        }
     }
 
     @FXML
     private void remove() {
-
+        this.elements.dequeue();
     }
 
     @FXML
     private void kxRemove() {
-
+        int count = Integer.parseInt(k.getText().trim());
+        for(int i = 0; i < count; i++) {
+            this.elements.dequeue();
+        }
     }
 
     @FXML
@@ -66,6 +79,7 @@ public class QueueController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        elements = new QueueDisplay(parent);
         disableFields();
         createButton.setOnMouseClicked(event -> {
             disableFields();

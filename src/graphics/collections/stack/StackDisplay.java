@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import java.time.chrono.MinguoDate;
 import java.util.ArrayList;
 
 public class StackDisplay implements Collection, Stack {
@@ -108,11 +109,14 @@ public class StackDisplay implements Collection, Stack {
         }
         int index = this.size - 1;
         this.parent.getChildren().remove(this.elements.get(index));
+        this.elements.remove(index);
         this.size--;
     }
 
     @Override
     public void peek() {
-
+        int index = this.size - 1;
+        Label label = (Label) this.elements.get(index).getChildren().get(1);
+        label.setTextFill(Color.RED);
     }
 }

@@ -36,7 +36,7 @@
                         <HBox fx:id="removeField" prefHeight="50.0" prefWidth="200.0">
                             <children>
                                 <Button layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#remove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="1x Dequeue" />
-                                <TextField fx:id="removeIndex" prefHeight="50.0" prefWidth="100.0" promptText="k" />
+                                <TextField fx:id="k" prefHeight="50.0" prefWidth="100.0" promptText="k" />
                                 <Button mnemonicParsing="false" onMouseClicked="#kxRemove" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: yellow; -fx-opacity: 0.8;" text="kx Dequeue" />
                             </children></HBox>
                     </children>
