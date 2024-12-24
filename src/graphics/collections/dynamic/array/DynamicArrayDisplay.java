@@ -1,49 +1,42 @@
 package graphics.collections.dynamic.array;
 
+import data.structures.CustomCollections;
+import data.structures.DynamicArray;
 import graphics.collections.Collection;
-import javafx.scene.control.Label;
+import graphics.graphical.elements.GraphicalNumber;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class DynamicArrayDisplay implements Collection, DynamicArray {
+public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
     private static final double X = 60;
     private static final double Y = 60;
     private static final double WIDTH = 70;
     private static final int MAX_CAPACITY = 20;
     public static boolean Existed = false;
 
-    private ArrayList<StackPane> elements;
+    private DynamicArray<GraphicalNumber> elements;
     private Pane parent;
     private int capacity;
     private int size;
     private int lastSelection;
 
     public DynamicArrayDisplay(Pane parent) {
-        this.elements = new ArrayList<>();
+        this.elements = CustomCollections.createDynamicArray(new ArrayList<GraphicalNumber>());
         this.parent = parent;
         this.lastSelection = 0;
     }
 
-    @Override
     public void setValue(int index, int value) {
-        Label label = (Label) this.elements.get(index).getChildren().get(1);
-        label.setText(Integer.toString(value));
+        this.elements.select(index).setValue(value);
     }
 
-    @Override
     public int getValue(int index) {
-        Label label = (Label) this.elements.get(index).getChildren().get(1);
-        return Integer.parseInt(label.getText());
+        return this.elements.select(index).getValue();
     }
 
     public void removeValue(int index) {
-        Label label = (Label) this.elements.get(index).getChildren().get(1);
-        label.setText("");
+        this.elements.select(index).getLabel().setText("");
     }
 
     public ArrayList<Integer> toList() {
@@ -56,28 +49,33 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
 
     @Override
     public void draw() {
-        int order = this.elements.size();
+//        int order = this.elements.size();
+//
+//        // Create square
+//        Rectangle square = new Rectangle(WIDTH, WIDTH);
+//        square.setStroke(Color.BLACK);
+//        square.setFill(Color.TRANSPARENT);
+//
+//        // Create label
+//        Label label = new Label();
+//        label.setStyle("-fx-font-size: " + (WIDTH / 3) + "px; "
+//                + "-fx-text-fill: black; "
+//                + "-fx-alignment: center;");
+//
+//        // Create container
+//        StackPane container = new StackPane();
+//        container.setLayoutX(X + WIDTH * order);
+//        container.setLayoutY(Y);
+//        container.getChildren().addAll(square, label);
+//
+//        // Add container to parent
+//        this.parent.getChildren().add(container);
+//        this.elements.add(container);
+        int order = this.elements.getSize();
+        GraphicalNumber element = new GraphicalNumber(X + WIDTH * order, Y, WIDTH, WIDTH);
 
-        // Create square
-        Rectangle square = new Rectangle(WIDTH, WIDTH);
-        square.setStroke(Color.BLACK);
-        square.setFill(Color.TRANSPARENT);
-
-        // Create label
-        Label label = new Label();
-        label.setStyle("-fx-font-size: " + (WIDTH / 3) + "px; "
-                + "-fx-text-fill: black; "
-                + "-fx-alignment: center;");
-
-        // Create container
-        StackPane container = new StackPane();
-        container.setLayoutX(X + WIDTH * order);
-        container.setLayoutY(Y);
-        container.getChildren().addAll(square, label);
-
-        // Add container to parent
-        this.parent.getChildren().add(container);
-        this.elements.add(container);
+        this.parent.getChildren().add(element.getContainer());
+        this.elements.append(element);
     }
 
     @Override
@@ -176,36 +174,49 @@ public class DynamicArrayDisplay implements Collection, DynamicArray {
     }
 
     @Override
-    public void sort(boolean ascending) {
+    public void sort(boolean reverse) {
         if (this.size != 0) {
             this.changeColor(this.lastSelection, Color.BLACK);
         }
-        ArrayList<Integer> lst = this.toList();
-        if (ascending) {
-            Collections.sort(lst);
-        } else {
-            Collections.sort(lst, Collections.reverseOrder());
-        }
+//        ArrayList<Integer> lst = this.toList();
+//        if (ascending) {
+//            Collections.sort(lst);
+//        } else {
+//            Collections.sort(lst, Collections.reverseOrder());
+//        }
+//        for (int i = 0; i < this.size; i++) {
+//            this.setValue(i, lst.get(i));
+//        }
+        this.elements.sort(reverse);
         for (int i = 0; i < this.size; i++) {
-            this.setValue(i, lst.get(i));
+            this.elements.select(i).getContainer().setLayoutX(X + WIDTH * i);
         }
     }
 
     @Override
     public void min() {
-        ArrayList<Integer> lst = this.toList();
-        this.select(lst.indexOf(Collections.min(lst)));
+        int min_value = this.elements.min().getValue();
+        for (int i = 0; i < this.size; i++) {
+            if (this.getValue(i) == min_value) {
+                this.select(i);
+                break;
+            }
+        }
     }
 
     @Override
     public void max() {
-        ArrayList<Integer> lst = this.toList();
-        this.select(lst.indexOf(Collections.max(lst)));
+        int max_value = this.elements.max().getValue();
+        for (int i = 0; i < this.size; i++) {
+            if (this.getValue(i) == max_value) {
+                this.select(i);
+                break;
+            }
+        }
     }
 
     @Override
     public void changeColor(int index, Color color) {
-        Label label = (Label) this.elements.get(index).getChildren().get(1);
-        label.setTextFill(color);
+        this.elements.select(index).getLabel().setTextFill(color);
     }
 }

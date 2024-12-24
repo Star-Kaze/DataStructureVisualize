@@ -104,12 +104,12 @@ public class DynamicArrayController implements Initializable {
 
     @FXML
     private void sortAscending() {
-        this.elements.sort(true);
+        this.elements.sort(false);
     }
 
     @FXML
     private void sortDescending() {
-        this.elements.sort(false);
+        this.elements.sort(true);
     }
 
     public void disableFields() {

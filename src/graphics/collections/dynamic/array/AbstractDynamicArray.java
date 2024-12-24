@@ -1,6 +1,6 @@
 package graphics.collections.dynamic.array;
 
-public interface DynamicArray {
+public interface AbstractDynamicArray {
     public void insert(int index, int value);
     public void append(int value);
     public void remove(int index);

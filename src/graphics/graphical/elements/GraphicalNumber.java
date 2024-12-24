@@ -5,12 +5,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class GraphicalNumber {
+public class GraphicalNumber implements Comparable<GraphicalNumber> {
     private Label label;
     private Rectangle frame;
     private StackPane container;
 
-    public GraphicalNumber(float x, float y, float width, float height) {
+    public GraphicalNumber(double x, double y, double width, double height) {
         // Create frame
         this.frame = new Rectangle(width, height);
         this.frame.setFill(Color.TRANSPARENT);
@@ -46,6 +46,21 @@ public class GraphicalNumber {
     }
 
     public int getValue() {
-        return Integer.parseInt(this.label.getText());
+        String text = this.label.getText();
+        if (text.isEmpty()) {
+            throw new NumberFormatException();
+        }
+        return Integer.parseInt(text);
+    }
+
+    @Override
+    public int compareTo(GraphicalNumber other) {
+        try {
+            int value1 = this.getValue();
+            int value2 = other.getValue();
+            return value1 - value2;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }

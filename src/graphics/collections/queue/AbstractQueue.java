@@ -1,6 +1,6 @@
 package graphics.collections.queue;
 
-public interface Queue {
+public interface AbstractQueue {
     public void enqueue(int value);
     public void dequeue();
     public void peekFront();

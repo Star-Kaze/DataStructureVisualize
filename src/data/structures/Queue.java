@@ -34,10 +34,17 @@ public class Queue<T> {
         return elementToRemove;
     }
 
-    public T peek() {
+    public T peekFront() {
         if (elements.isEmpty()) {
             return null;
         }
         return elements.get(0);
+    }
+
+    public T peekBack() {
+        if (elements.isEmpty()) {
+            return null;
+        }
+        return elements.get(elements.size() - 1);
     }
 }
