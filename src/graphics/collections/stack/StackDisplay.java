@@ -8,13 +8,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
-import java.time.chrono.MinguoDate;
 import java.util.ArrayList;
 
 public class StackDisplay implements Collection, Stack {
     private static final double X = 700;
-    private static final double Y = 500;
-    private static final double WIDTH = 40;
+    private static final double Y = 700;
+    private static final double WIDTH = 60;
     private static final int MAX_CAPACITY = 10;
     public static boolean Existed = false;
 
@@ -41,7 +40,6 @@ public class StackDisplay implements Collection, Stack {
 
     @Override
     public void create(ArrayList<Integer> elements) {
-        this.size = 0;
 
         if (Existed) {
             int index = this.size;
@@ -62,6 +60,7 @@ public class StackDisplay implements Collection, Stack {
             this.parent.getChildren().addAll(leftLine, rightLine, bottomLine);
             Existed = true;
         }
+        this.size = 0;
 
         for (int i = 0; i < elements.size(); i++) {
             this.push(elements.get(i));

@@ -40,7 +40,6 @@ public class QueueDisplay implements Collection, Queue {
 
     @Override
     public void create(ArrayList<Integer> elements) {
-        this.size = 0;
 
         if (Existed) {
             int index = this.size;
@@ -58,6 +57,7 @@ public class QueueDisplay implements Collection, Queue {
             this.parent.getChildren().addAll(topLine, bottomLine);
             Existed = true;
         }
+        this.size = 0;
 
         for (int i = 0; i < elements.size(); i++) {
             this.enqueue(elements.get(i));
