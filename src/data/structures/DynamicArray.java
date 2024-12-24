@@ -23,8 +23,6 @@ public class DynamicArray<T extends Comparable<T>> {
         this.elements = new Object[this.capacity];
     }
 
-    public
-
     public int getSize() {
         return size;
     }
