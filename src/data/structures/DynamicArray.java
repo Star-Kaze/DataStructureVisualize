@@ -1,8 +1,6 @@
 package data.structures;
 
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DynamicArray<T extends Comparable<T>> {
     private Object[] elements;
