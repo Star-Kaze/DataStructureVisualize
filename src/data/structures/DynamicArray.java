@@ -64,6 +64,7 @@ public class DynamicArray<T extends Comparable<T>> {
         if (this.size == this.capacity) {
             doubleCapacity();
         }
+
         // Add value to the end of the list
         elements[this.size] = value;
         this.size++;
