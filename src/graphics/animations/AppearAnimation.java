@@ -14,7 +14,7 @@ public class AppearAnimation {
                                + "-fx-text-fill: white; "
                                + "-fx-alignment: center;");
         node.getFrame().setFill(Color.GREEN);
-        node.getFrame().setStroke(Color.TRANSPARENT);
+        node.getFrame().setStroke(Color.GREEN);
 
         // Create fade-in transition
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(duration), node.getContainer());
