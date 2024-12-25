@@ -47,22 +47,22 @@ public class QueueController implements Initializable {
     @FXML
     private void insert() {
         String[] rawValues = insertValues.getText().split(",");
+        ArrayList<Integer> intValues = new ArrayList<>();
         for (String rawValue:rawValues) {
-            this.elements.enqueue(Integer.parseInt(rawValue.trim()));
+            intValues.add(Integer.parseInt(rawValue.trim()));
         }
+        this.elements.enqueue(intValues);
     }
 
     @FXML
     private void remove() {
-        this.elements.dequeue();
+        this.elements.dequeue(1);
     }
 
     @FXML
     private void kxRemove() {
         int count = Integer.parseInt(k.getText().trim());
-        for(int i = 0; i < count; i++) {
-            this.elements.dequeue();
-        }
+        this.elements.dequeue(count);
     }
 
     @FXML

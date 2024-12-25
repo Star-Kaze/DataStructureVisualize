@@ -19,13 +19,14 @@ public class GraphicalNumber implements Comparable<GraphicalNumber> {
         // Create label
         this.label = new Label();
         this.label.setStyle("-fx-font-size: " + (height / 3) + "px; "
-                + "-fx-text-fill: black; "
-                + "-fx-alignment: center;");
+                          + "-fx-text-fill: black; "
+                          + "-fx-alignment: center;");
 
         // Create container
         this.container = new StackPane();
         this.container.setLayoutX(x);
         this.container.setLayoutY(y);
+//        this.container.setOpacity(0);
         this.container.getChildren().addAll(this.frame, this.label);
     }
 
