@@ -2,17 +2,18 @@ package graphics.collections.dynamic.array;
 
 import data.structures.CustomCollections;
 import data.structures.DynamicArray;
+import graphics.animations.InsertAnimation;
+import graphics.animations.SelectionAnimation;
 import graphics.animations.ShiftAnimation;
 import graphics.animations.SwapAnimation;
-import graphics.animations.UpdatedAnimation;
 import graphics.collections.Collection;
 import graphics.graphical.elements.GraphicalNumber;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 
 public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
@@ -20,18 +21,18 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
     private static final double Y = 60;
     private static final double WIDTH = 70;
     private static final int MAX_CAPACITY = 20;
+    private static boolean Freezing = false;
     public static boolean Existed = false;
 
     private DynamicArray<GraphicalNumber> elements;
     private Pane parent;
     private int capacity;
     private int size;
-    private int lastSelection;
+    private GraphicalNumber lastSelection = null;
 
     public DynamicArrayDisplay(Pane parent) {
         this.elements = CustomCollections.createDynamicArray(new ArrayList<GraphicalNumber>());
         this.parent = parent;
-        this.lastSelection = 0;
     }
 
     public void setValue(int index, int value) {
@@ -42,47 +43,25 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
         return this.elements.select(index).getValue();
     }
 
-    public void removeValue(int index) {
-        this.elements.select(index).getLabel().setText("");
+    public int getSize() {
+        return this.size;
     }
 
-    public ArrayList<Integer> toList() {
-        ArrayList<Integer> arrLst = new ArrayList<>();
-        for (int i = 0; i < this.size; i++) {
-            arrLst.add(this.getValue(i));
-        }
-        return arrLst;
-    }
-
-    @Override
     public void draw() {
-//        int order = this.elements.size();
-//
-//        // Create square
-//        Rectangle square = new Rectangle(WIDTH, WIDTH);
-//        square.setStroke(Color.BLACK);
-//        square.setFill(Color.TRANSPARENT);
-//
-//        // Create label
-//        Label label = new Label();
-//        label.setStyle("-fx-font-size: " + (WIDTH / 3) + "px; "
-//                + "-fx-text-fill: black; "
-//                + "-fx-alignment: center;");
-//
-//        // Create container
-//        StackPane container = new StackPane();
-//        container.setLayoutX(X + WIDTH * order);
-//        container.setLayoutY(Y);
-//        container.getChildren().addAll(square, label);
-//
-//        // Add container to parent
-//        this.parent.getChildren().add(container);
-//        this.elements.add(container);
         int order = this.elements.getSize();
-        GraphicalNumber element = new GraphicalNumber(X + WIDTH * order, Y, WIDTH, WIDTH);
 
+        GraphicalNumber element = new GraphicalNumber(X + WIDTH * order, Y, WIDTH, WIDTH);
         this.parent.getChildren().add(element.getContainer());
         this.elements.append(element);
+
+        GraphicalNumber index = new GraphicalNumber(X + WIDTH * order, Y + WIDTH, WIDTH, WIDTH);
+        index.setValue(order);
+        index.getLabel().setStyle("-fx-font-size: " + (WIDTH / 3) + "px; "
+                                + "-fx-text-fill: red; "
+                                + "-fx-alignment: center;");
+        index.getFrame().setHeight(WIDTH / 2);
+        index.getFrame().setStroke(Color.TRANSPARENT);
+        this.parent.getChildren().add(index.getContainer());
     }
 
     @Override
@@ -103,38 +82,43 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
 
     @Override
     public void insert(int index, int value) {
-//        if (this.size == 0) {
-//            SequentialTransition insertion = UpdatedAnimation.create(this.elements.select(0), value);
-////            this.setValue(0, value);
-//            this.size++;
-//            return;
-////        }
-//        if (index > this.size) {
-//            //handle
-//            return;
-//        }
-////        this.changeColor(this.lastSelection, Color.BLACK);
-        if (this.size == MAX_CAPACITY || index > this.size) {
+        if (Freezing) {
             return;
-        } else if (this.size == this.capacity) {
+        }
+        Freezing = true;
+
+        if (this.lastSelection != null) {
+            Timeline setNull = SelectionAnimation.createUnselected(this.lastSelection, 0.1);
+            setNull.setOnFinished(event -> {
+                this.lastSelection = null;
+            });
+            setNull.play();
+        }
+
+        if (this.size == MAX_CAPACITY || index > this.size || index < -this.size) {
+            Freezing = false;
+            return;
+        }
+        if (this.size == this.capacity) {
             this.capacity = Math.min(this.capacity * 2, MAX_CAPACITY);
             for (int i = 0; i < this.capacity - this.size; i++) {
                 this.draw();
             }
         }
-//        for (int i = this.size - 1; i >= index; i--) {
-//            this.setValue(i + 1, this.getValue(i));
-//            this.removeValue(i);
-//        }
-//        this.setValue(index, value);
-//        this.size++;
+        if (index < 0) {
+            index += this.size;
+        }
+
         SequentialTransition process = new SequentialTransition();
+        process.setOnFinished(event -> {
+            Freezing = false;
+        });
         for (int i = this.size; i > index; i--) {
             SequentialTransition shiftRight = ShiftAnimation.create(this.elements.select(i - 1), this.elements.select(i));
             PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
             process.getChildren().addAll(shiftRight, pause);
         }
-        SequentialTransition insert = UpdatedAnimation.create(this.elements.select(index), value);
+        SequentialTransition insert = InsertAnimation.create(this.elements.select(index), value);
         process.getChildren().add(insert);
         process.play();
         this.size++;
@@ -147,25 +131,31 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
 
     @Override
     public void remove(int index) {
-        if (this.size == 0 || index >= this.size) {
+        if (Freezing) {
             return;
         }
-//        this.changeColor(this.lastSelection, Color.BLACK);
-//        if (this.size == 1) {
-//            this.removeValue(0);
-//            this.size--;
-//            return;
-//        }
-//        if (index >= this.size) {
-//            return;
-//        }
-//        this.removeValue(index);
-//        for (int i = index; i < size - 1; i++) {
-//            this.setValue(i, this.getValue(i + 1));
-//            this.removeValue(i + 1);
-//        }
+        Freezing = true;
+
+        if (this.lastSelection != null) {
+            Timeline setNull = SelectionAnimation.createUnselected(this.lastSelection, 0.1);
+            setNull.setOnFinished(event -> {
+                this.lastSelection = null;
+            });
+            setNull.play();
+        }
+        if (this.size == 0 || index >= this.size || index < -this.size) {
+            Freezing = false;
+            return;
+        }
+        if (index < 0) {
+            index += this.size;
+        }
+
         this.size--;
         SequentialTransition process = new SequentialTransition();
+        process.setOnFinished(event -> {
+            Freezing = false;
+        });
         SequentialTransition insert = SwapAnimation.create(this.elements.select(index), new GraphicalNumber(0, 0, 0, 0));
         process.getChildren().add(insert);
         for (int i = index; i < this.size; i++) {
@@ -178,72 +168,201 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
 
     @Override
     public void update(int index, int value) {
-        if (this.size != 0) {
-            this.changeColor(this.lastSelection, Color.BLACK);
+        if (Freezing) {
+            return;
         }
-        if (index >= this.size) {
+        Freezing = true;
+
+        if (this.lastSelection != null) {
+            Timeline setNull = SelectionAnimation.createUnselected(this.lastSelection, 0.1);
+            setNull.setOnFinished(event -> {
+                this.lastSelection = null;
+            });
+            setNull.play();
+        }
+        if (index >= this.size || index < -this.size) {
+            Freezing = false;
             //handle
             return;
         }
-        this.setValue(index, value);
+        if (index < 0) {
+            index += this.size;
+        }
+        SequentialTransition updated = InsertAnimation.createUpdated(this.elements.select(index), value);
+        updated.setOnFinished(event -> {
+            Freezing = false;
+        });
+        updated.play();
     }
 
     @Override
     public void select(int index) {
-        if (this.size != 0) {
-            this.changeColor(this.lastSelection, Color.BLACK);
-        }
-        if (index >= this.size) {
+        if (Freezing) {
             return;
         }
-        this.changeColor(index, Color.RED);
-        this.lastSelection = index;
+        Freezing = true;
+
+        if (this.lastSelection != null) {
+            Timeline setNull = SelectionAnimation.createUnselected(this.lastSelection, 0.1);
+            setNull.setOnFinished(event -> {
+                this.lastSelection = null;
+            });
+            setNull.play();
+        }
+
+        if (index >= this.size || index < -this.size) {
+            Freezing = false;
+            return;
+        }
+        if (index < 0) {
+            index += this.size;
+        }
+
+        GraphicalNumber element = this.elements.select(index);
+        Timeline selected = SelectionAnimation.create(element, 0.1);
+        selected.setOnFinished(event -> {
+            this.lastSelection = element;
+            Freezing = false;
+        });
+        selected.play();
     }
 
     @Override
     public void sort(boolean reverse) {
-        if (this.size != 0) {
-            this.changeColor(this.lastSelection, Color.BLACK);
+        if (Freezing) {
+            return;
         }
-//        ArrayList<Integer> lst = this.toList();
-//        if (ascending) {
-//            Collections.sort(lst);
-//        } else {
-//            Collections.sort(lst, Collections.reverseOrder());
-//        }
-//        for (int i = 0; i < this.size; i++) {
-//            this.setValue(i, lst.get(i));
-//        }
-        this.elements.sort(reverse);
+        Freezing = true;
+
+        if (this.lastSelection != null) {
+            Timeline setNull = SelectionAnimation.createUnselected(this.lastSelection, 0.1);
+            setNull.setOnFinished(event -> {
+                this.lastSelection = null;
+            });
+            setNull.play();
+        }
+
+        if (this.size <= 1) {
+            Freezing = false;
+            return;
+        }
+
+        ArrayList<GraphicalNumber> copy = new ArrayList<>();
         for (int i = 0; i < this.size; i++) {
-            this.elements.select(i).getContainer().setLayoutX(X + WIDTH * i);
+            copy.add(this.elements.select(i));
         }
+
+        boolean swapped;
+        SequentialTransition process = new SequentialTransition();
+        process.setOnFinished(event -> {
+            Freezing = false;
+        });
+        for (int i = 0; i < this.size - 1; i++) {
+            swapped = false;
+            for (int j = 0; j < this.size - 1 - i; j++) {
+                boolean ascending = (copy.get(j).compareTo(copy.get(j + 1)) > 0) & (!reverse);
+                boolean descending = (copy.get(j).compareTo(copy.get(j + 1)) < 0) & (reverse);
+
+                if (ascending || descending) {
+                    SequentialTransition swap = SwapAnimation.create(this.elements.select(j), this.elements.select(j + 1), copy.get(j + 1).getValue(), copy.get(j).getValue());
+                    PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
+                    process.getChildren().addAll(swap, pause);
+
+                    GraphicalNumber temp = copy.get(j);
+                    copy.set(j, copy.get(j + 1));
+                    copy.set(j + 1, temp);
+
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
+        process.play();
     }
 
     @Override
     public void min() {
-        int min_value = this.elements.min().getValue();
-        for (int i = 0; i < this.size; i++) {
-            if (this.getValue(i) == min_value) {
-                this.select(i);
-                break;
-            }
+        if (Freezing) {
+            return;
         }
+
+        if (this.lastSelection != null) {
+            Timeline setNull = SelectionAnimation.createUnselected(this.lastSelection, 0.1);
+            setNull.setOnFinished(event -> {
+                this.lastSelection = null;
+            });
+            setNull.play();
+        }
+
+        if (this.size == 0) {
+            return;
+        }
+
+        Timeline selected = SelectionAnimation.create(this.elements.select(0), 0.4);
+        Timeline unselected;
+        SequentialTransition process = new SequentialTransition(selected);
+        int minIndex = 0;
+
+        if (this.size == 1) {
+            process.play();
+            return;
+        }
+
+        for (int i = 1; i < this.size; i++) {
+            selected = SelectionAnimation.create(this.elements.select(i), 0.4);
+            unselected = SelectionAnimation.createUnselected(this.elements.select(getValue(i) < getValue(minIndex) ? minIndex : i), 0.4);
+            if (getValue(i) < getValue(minIndex)) {
+                minIndex = i;
+            }
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.3));
+            process.getChildren().addAll(selected, pause, unselected);
+        }
+
+        lastSelection = this.elements.select(minIndex);
+        process.play();
     }
 
     @Override
     public void max() {
-        int max_value = this.elements.max().getValue();
-        for (int i = 0; i < this.size; i++) {
-            if (this.getValue(i) == max_value) {
-                this.select(i);
-                break;
-            }
+        if (Freezing) {
+            return;
         }
-    }
 
-    @Override
-    public void changeColor(int index, Color color) {
-        this.elements.select(index).getLabel().setTextFill(color);
+        if (this.lastSelection != null) {
+            Timeline setNull = SelectionAnimation.createUnselected(this.lastSelection, 0.1);
+            setNull.setOnFinished(event -> {
+                this.lastSelection = null;
+            });
+            setNull.play();
+        }
+
+        if (this.size == 0) {
+            return;
+        }
+
+        Timeline selected = SelectionAnimation.create(this.elements.select(0), 0.4);
+        Timeline unselected;
+        SequentialTransition process = new SequentialTransition(selected);
+        int maxIndex = 0;
+
+        if (this.size == 1) {
+            process.play();
+            return;
+        }
+
+        for (int i = 1; i < this.size; i++) {
+            selected = SelectionAnimation.create(this.elements.select(i), 0.4);
+            unselected = SelectionAnimation.createUnselected(this.elements.select(getValue(i) > getValue(maxIndex) ? maxIndex : i), 0.4);
+            if (getValue(i) > getValue(maxIndex)) {
+                maxIndex = i;
+            }
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.3));
+            process.getChildren().addAll(selected, pause, unselected);
+        }
+
+        lastSelection = this.elements.select(maxIndex);
+        process.play();
     }
 }

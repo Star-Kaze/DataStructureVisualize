@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="parent" prefHeight="800.0" prefWidth="1540.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="resources.controllers.QueueController">
     <children>
@@ -49,5 +50,10 @@
                 </VBox>
             </children>
         </AnchorPane>
+      <Label fx:id="output" textFill="RED" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="90.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

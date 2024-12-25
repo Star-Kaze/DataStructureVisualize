@@ -1,20 +1,26 @@
 package resources.controllers;
 
+import graphics.collections.dynamic.array.DynamicArrayDisplay;
+import graphics.collections.queue.QueueDisplay;
+import graphics.collections.stack.StackDisplay;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
 public class MainController implements Initializable {
     @FXML
@@ -29,19 +35,22 @@ public class MainController implements Initializable {
     @FXML
     private void home() {
         this.closeMenu();
+        this.setAllExistedToFalse();
         try {
-            Parent template = FXMLLoader.load(getClass().getResource("../templates/home.fxml"));
-            content.getChildren().removeAll();
-            content.getChildren().setAll(template);
-        } catch (IOException e) {
+            Parent root = FXMLLoader.load(getClass().getResource("../templates/home.fxml"));
+            Stage stage = (Stage) exit.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
             e.printStackTrace();
-            System.exit(0);
         }
     }
 
     @FXML
     private void list() {
         this.closeMenu();
+        this.setAllExistedToFalse();
         try {
             Parent template = FXMLLoader.load(getClass().getResource("../templates/dynamic-array.fxml"));
             content.getChildren().removeAll();
@@ -55,6 +64,7 @@ public class MainController implements Initializable {
     @FXML
     private void stack() {
         this.closeMenu();
+        this.setAllExistedToFalse();
         try {
             Parent template = FXMLLoader.load(getClass().getResource("../templates/stack.fxml"));
             content.getChildren().removeAll();
@@ -68,6 +78,7 @@ public class MainController implements Initializable {
     @FXML
     private void queue() {
         this.closeMenu();
+        this.setAllExistedToFalse();
         try {
             Parent template = FXMLLoader.load(getClass().getResource("../templates/queue.fxml"));
             content.getChildren().removeAll();
@@ -81,11 +92,11 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         exit.setOnMouseClicked(event -> {
-            System.exit(0);
+            confirmBeforeExit();
         });
 
         try {
-            Parent template = FXMLLoader.load(getClass().getResource("../templates/home.fxml"));
+            Parent template = FXMLLoader.load(getClass().getResource(HomeController.templateLink));
             content.getChildren().removeAll();
             content.getChildren().setAll(template);
         } catch (IOException e) {
@@ -135,5 +146,22 @@ public class MainController implements Initializable {
         TranslateTransition translateTransitionOfOptions2 = new TranslateTransition(Duration.seconds(0.5), options);
         translateTransitionOfOptions2.setByX(-600);
         translateTransitionOfOptions2.play();
+    }
+
+    private void setAllExistedToFalse() {
+        DynamicArrayDisplay.Existed = false;
+        StackDisplay.Existed = false;
+        QueueDisplay.Existed = false;
+    }
+
+    private void confirmBeforeExit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm before exit");
+        alert.setHeaderText("Are you sure you want to exit?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.exit(0);
+        }
     }
 }

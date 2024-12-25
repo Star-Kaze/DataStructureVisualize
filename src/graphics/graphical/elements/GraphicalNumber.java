@@ -26,7 +26,6 @@ public class GraphicalNumber implements Comparable<GraphicalNumber> {
         this.container = new StackPane();
         this.container.setLayoutX(x);
         this.container.setLayoutY(y);
-//        this.container.setOpacity(0);
         this.container.getChildren().addAll(this.frame, this.label);
     }
 

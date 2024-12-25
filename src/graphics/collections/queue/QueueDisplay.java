@@ -6,14 +6,10 @@ import graphics.animations.SelectionAnimation;
 import graphics.collections.Collection;
 import graphics.graphical.elements.GraphicalNumber;
 import javafx.animation.*;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 
 public class QueueDisplay implements Collection, AbstractQueue {
@@ -62,36 +58,6 @@ public class QueueDisplay implements Collection, AbstractQueue {
             this.enqueue(elements);
         });
         pause.play();
-    }
-
-    @Override
-    public void draw() {
-
-//        // Draw rectangle
-//        Rectangle rectangle = new Rectangle(WIDTH, WIDTH);
-//        rectangle.setStroke(Color.BLACK);
-//        rectangle.setFill(Color.TRANSPARENT);
-//
-//        // Create label
-//        Label label = new Label();
-//        label.setStyle("-fx-font-size: " + (WIDTH / 3) + "px; "
-//                + "-fx-text-fill: black; "
-//                + "-fx-alignment: center;");
-//
-//        // Create container
-//        StackPane container = new StackPane();
-//        container.setLayoutX(X + WIDTH * (MAX_CAPACITY - 1) - order * WIDTH);
-//        container.setLayoutY(Y);
-//        container.getChildren().addAll(rectangle, label);
-//
-//        // Add container to parent
-//        this.parent.getChildren().add(container);
-//        this.elements.add(container);
-        int order = this.elements.getSize();
-        GraphicalNumber element = new GraphicalNumber(X + WIDTH * (MAX_CAPACITY - 1) - order * WIDTH, Y, WIDTH, WIDTH);
-
-        this.parent.getChildren().add(element.getContainer());
-        this.elements.enqueue(element);
     }
 
     @Override
@@ -231,10 +197,5 @@ public class QueueDisplay implements Collection, AbstractQueue {
             this.lastPeek[1] = element;
         });
         selected.play();
-    }
-
-    @Override
-    public void changeColor(int index, Color color) {
-        this.elements.toList().get(index).getLabel().setTextFill(color);
     }
 }

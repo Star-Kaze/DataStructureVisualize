@@ -9,12 +9,10 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 
 public class StackDisplay implements Collection, AbstractStack {
@@ -61,36 +59,6 @@ public class StackDisplay implements Collection, AbstractStack {
             this.push(elements);
         });
         pause.play();
-    }
-
-    @Override
-    public void draw() {
-
-//        // Draw rectangle
-//        Rectangle rectangle = new Rectangle(2 * WIDTH, WIDTH);
-//        rectangle.setStroke(Color.BLACK);
-//        rectangle.setFill(Color.TRANSPARENT);
-//
-//        // Create label
-//        Label label = new Label();
-//        label.setStyle("-fx-font-size: " + (WIDTH / 3) + "px; "
-//                + "-fx-text-fill: black; "
-//                + "-fx-alignment: center;");
-//
-//        // Create container
-//        StackPane container = new StackPane();
-//        container.setLayoutX(X);
-//        container.setLayoutY(Y - WIDTH - (WIDTH * order));
-//        container.getChildren().addAll(rectangle, label);
-//
-//        // Add container to parent
-//        this.parent.getChildren().add(container);
-//        this.elements.add(container);
-        int order = this.elements.getSize();
-        GraphicalNumber element = new GraphicalNumber(X, Y - WIDTH - WIDTH * order, 2 * WIDTH, WIDTH);
-
-        this.parent.getChildren().add(element.getContainer());
-        this.elements.push(element);
     }
 
     @Override
@@ -176,10 +144,5 @@ public class StackDisplay implements Collection, AbstractStack {
             this.lastPeek = element;
         });
         selected.play();
-    }
-
-    @Override
-    public void changeColor(int index, Color color) {
-        this.elements.toList().get(index).getLabel().setTextFill(color);
     }
 }
