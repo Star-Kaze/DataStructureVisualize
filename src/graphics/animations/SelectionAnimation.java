@@ -16,7 +16,7 @@ public class SelectionAnimation {
         KeyValue backGround = new KeyValue(node.getFrame().fillProperty(), Color.ORANGE);
         KeyFrame frame2 = new KeyFrame(Duration.seconds(duration), backGround);
 
-        KeyValue stroke = new KeyValue(node.getFrame().strokeProperty(), Color.TRANSPARENT);
+        KeyValue stroke = new KeyValue(node.getFrame().strokeProperty(), Color.ORANGE);
         KeyFrame frame3 = new KeyFrame(Duration.seconds(duration), stroke);
 
         // Create timeline

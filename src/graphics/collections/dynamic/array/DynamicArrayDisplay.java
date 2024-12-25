@@ -2,10 +2,17 @@ package graphics.collections.dynamic.array;
 
 import data.structures.CustomCollections;
 import data.structures.DynamicArray;
+import graphics.animations.ShiftAnimation;
+import graphics.animations.SwapAnimation;
+import graphics.animations.UpdatedAnimation;
 import graphics.collections.Collection;
 import graphics.graphical.elements.GraphicalNumber;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
+
 import java.util.ArrayList;
 
 public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
@@ -96,17 +103,18 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
 
     @Override
     public void insert(int index, int value) {
-        if (this.size == 0) {
-            this.setValue(0, value);
-            this.size++;
-            return;
-        }
-        this.changeColor(this.lastSelection, Color.BLACK);
-        if (index > this.size) {
-            //handle
-            return;
-        }
-        if (this.size == MAX_CAPACITY) {
+//        if (this.size == 0) {
+//            SequentialTransition insertion = UpdatedAnimation.create(this.elements.select(0), value);
+////            this.setValue(0, value);
+//            this.size++;
+//            return;
+////        }
+//        if (index > this.size) {
+//            //handle
+//            return;
+//        }
+////        this.changeColor(this.lastSelection, Color.BLACK);
+        if (this.size == MAX_CAPACITY || index > this.size) {
             return;
         } else if (this.size == this.capacity) {
             this.capacity = Math.min(this.capacity * 2, MAX_CAPACITY);
@@ -114,11 +122,21 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
                 this.draw();
             }
         }
-        for (int i = this.size - 1; i >= index; i--) {
-            this.setValue(i + 1, this.getValue(i));
-            this.removeValue(i);
+//        for (int i = this.size - 1; i >= index; i--) {
+//            this.setValue(i + 1, this.getValue(i));
+//            this.removeValue(i);
+//        }
+//        this.setValue(index, value);
+//        this.size++;
+        SequentialTransition process = new SequentialTransition();
+        for (int i = this.size; i > index; i--) {
+            SequentialTransition shiftRight = ShiftAnimation.create(this.elements.select(i - 1), this.elements.select(i));
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
+            process.getChildren().addAll(shiftRight, pause);
         }
-        this.setValue(index, value);
+        SequentialTransition insert = UpdatedAnimation.create(this.elements.select(index), value);
+        process.getChildren().add(insert);
+        process.play();
         this.size++;
     }
 
@@ -129,24 +147,33 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
 
     @Override
     public void remove(int index) {
-        if (this.size == 0) {
+        if (this.size == 0 || index >= this.size) {
             return;
         }
-        this.changeColor(this.lastSelection, Color.BLACK);
-        if (this.size == 1) {
-            this.removeValue(0);
-            this.size--;
-            return;
-        }
-        if (index >= this.size) {
-            return;
-        }
-        this.removeValue(index);
-        for (int i = index; i < size - 1; i++) {
-            this.setValue(i, this.getValue(i + 1));
-            this.removeValue(i + 1);
-        }
+//        this.changeColor(this.lastSelection, Color.BLACK);
+//        if (this.size == 1) {
+//            this.removeValue(0);
+//            this.size--;
+//            return;
+//        }
+//        if (index >= this.size) {
+//            return;
+//        }
+//        this.removeValue(index);
+//        for (int i = index; i < size - 1; i++) {
+//            this.setValue(i, this.getValue(i + 1));
+//            this.removeValue(i + 1);
+//        }
         this.size--;
+        SequentialTransition process = new SequentialTransition();
+        SequentialTransition insert = SwapAnimation.create(this.elements.select(index), new GraphicalNumber(0, 0, 0, 0));
+        process.getChildren().add(insert);
+        for (int i = index; i < this.size; i++) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.2));
+            SequentialTransition shiftLeft = ShiftAnimation.create(this.elements.select(i + 1), this.elements.select(i));
+            process.getChildren().addAll(pause, shiftLeft);
+        }
+        process.play();
     }
 
     @Override
