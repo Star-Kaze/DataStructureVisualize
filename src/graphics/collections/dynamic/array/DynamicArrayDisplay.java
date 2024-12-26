@@ -68,6 +68,8 @@ public class DynamicArrayDisplay implements Collection, AbstractDynamicArray {
     public void create(ArrayList<Integer> elements) {
         this.size = elements.size();
         this.capacity = Math.max(this.size, 10);
+        this.capacity = Math.min(this.capacity, 20);
+        this.size = Math.min(this.size, this.capacity);
 
         for (int i = 0; i < this.capacity; i++) {
             this.draw();

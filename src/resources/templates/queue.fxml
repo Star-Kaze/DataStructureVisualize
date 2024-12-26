@@ -32,7 +32,7 @@
                         <HBox fx:id="insertField" prefHeight="50.0" prefWidth="200.0">
                             <children>
                                 <TextField fx:id="insertValues" prefHeight="50.0" prefWidth="200.0" promptText="Values" />
-                                <Button mnemonicParsing="false" onMouseClicked="#insert" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Push" />
+                                <Button mnemonicParsing="false" onMouseClicked="#insert" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #e6d79e; -fx-opacity: 0.8;" text="Enqueue" />
                             </children></HBox>
                         <HBox fx:id="removeField" prefHeight="50.0" prefWidth="200.0">
                             <children>

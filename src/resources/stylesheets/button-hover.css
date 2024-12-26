@@ -1,0 +1,4 @@
+.button:hover {
+    -fx-font-style: italic;
+    -fx-text-fill: red;
+}
